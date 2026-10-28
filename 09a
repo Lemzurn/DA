@@ -1,0 +1,20 @@
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.neighbors import KNeighborsClassifier
+
+# Load data (first 2 features for 2D plotting)
+iris = load_iris()
+X = iris.data[:, :2]
+y = iris.target
+
+# Train KNN classifier
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(X, y)
+predictions = knn.predict(X)
+
+# Plot classification output
+plt.scatter(X[:, 0], X[:, 1], c=predictions, cmap="viridis", edgecolor="k")
+plt.xlabel(iris.feature_names[0])
+plt.ylabel(iris.feature_names[1])
+plt.title("KNN Classification Results (k=5)")
+plt.show()
