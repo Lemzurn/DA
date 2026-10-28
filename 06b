@@ -1,0 +1,24 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from statsmodels.tsa.ar_model import AutoReg
+
+# Generate synthetic time-series data
+np.random.seed(42)
+dates = pd.date_range("2024-01-01", periods=50)
+series = pd.Series(np.linspace(10, 50, 50) + np.random.normal(0, 2, 50), index=dates)
+
+# Fit Autoregressive model
+model = AutoReg(series, lags=4).fit()
+
+# Forecast 8 steps into the future
+forecast = model.predict(start=len(series), end=len(series) + 7)
+
+# Visualize original vs forecasted values
+plt.plot(series.index, series, label="Observed", color="blue")
+plt.plot(forecast.index, forecast, label="Forecast", color="orange", marker="o")
+plt.title("Time Series Forecasting (AutoReg)")
+plt.xlabel("Date")
+plt.ylabel("Value")
+plt.legend()
+plt.show()
