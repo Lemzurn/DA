@@ -1,0 +1,18 @@
+import matplotlib.pyplot as plt
+from sklearn.cluster import DBSCAN
+from sklearn.datasets import load_iris
+
+# Load dataset
+iris = load_iris()
+X = iris.data[:, :2]
+
+# Run DBSCAN
+dbscan = DBSCAN(eps=0.45, min_samples=4)
+labels = dbscan.fit_predict(X)
+
+# Scatter plot distinguishing clusters from noise (noise points are labeled -1)
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="tab10", edgecolor="k")
+plt.xlabel(iris.feature_names[0])
+plt.ylabel(iris.feature_names[1])
+plt.title("DBSCAN Clustering (Clusters and Noise Points)")
+plt.show()
