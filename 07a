@@ -1,0 +1,19 @@
+from sklearn.datasets import load_iris
+from sklearn.metrics import classification_report, accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+
+# Load dataset and create test/train splits
+iris = load_iris()
+X_train, X_test, y_train, y_test = train_test_split(
+    iris.data, iris.target, test_size=0.25, random_state=42
+)
+
+# Train Decision Tree
+tree = DecisionTreeClassifier(criterion="gini", max_depth=3, random_state=42)
+tree.fit(X_train, y_train)
+
+# Model evaluation
+y_pred = tree.predict(X_test)
+print(f"Accuracy: {accuracy_score(y_test, y_pred) * 100:.2f}%\n")
+print("Classification Report:\n", classification_report(y_test, y_pred))
