@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Sample data
+categories = ["A", "B", "C", "D"]
+values = [10, 24, 15, 30]
+x = np.linspace(0, 10, 50)
+y = np.sin(x)
+
+fig, axes = plt.subplots(2, 2, figsize=(10, 8))
+
+# 1. Line Plot
+axes[0, 0].plot(x, y, color="blue")
+axes[0, 0].set_title("Line Plot")
+
+# 2. Scatter Plot
+axes[0, 1].scatter(x, y + np.random.normal(0, 0.2, 50), color="green")
+axes[0, 1].set_title("Scatter Plot")
+
+# 3. Bar Chart
+axes[1, 0].bar(categories, values, color="orange")
+axes[1, 0].set_title("Bar Chart")
+
+# 4. Histogram
+data = np.random.randn(500)
+axes[1, 1].hist(data, bins=20, color="purple", edgecolor="black")
+axes[1, 1].set_title("Histogram")
+
+plt.tight_layout()
+plt.show()
