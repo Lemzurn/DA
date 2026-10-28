@@ -1,0 +1,25 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from statsmodels.tsa.ar_model import AutoReg
+
+# Generate simple sample time series data
+np.random.seed(42)
+dates = pd.date_range(start="2024-01-01", periods=60)
+values = np.sin(np.linspace(0, 10, 60)) + np.random.normal(0, 0.2, 60)
+series = pd.Series(values, index=dates)
+
+# Train an Autoregressive (AR) model
+model = AutoReg(series, lags=5).fit()
+
+# Forecast 10 steps ahead
+forecast = model.predict(start=len(series), end=len(series) + 9)
+
+# Plot historical data and forecast
+plt.plot(series.index, series, label="Observed")
+plt.plot(forecast.index, forecast, label="Forecast", color="red", linestyle="--")
+plt.title("Time Series Forecasting")
+plt.xlabel("Date")
+plt.ylabel("Value")
+plt.legend()
+plt.show()
