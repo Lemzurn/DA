@@ -1,24 +1,34 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from statsmodels.tsa.ar_model import AutoReg
+from statsmodels.tsa.arima.model import ARIMA
 
-# Generate synthetic time-series data
+# 1. Generate simple sample time series data
 np.random.seed(42)
-dates = pd.date_range("2024-01-01", periods=50)
-series = pd.Series(np.linspace(10, 50, 50) + np.random.normal(0, 2, 50), index=dates)
+dates = pd.date_range(start="2024-01-01", periods=50)
+values = np.linspace(10, 30, 50) + np.random.normal(0, 1, 50)
+series = pd.Series(values, index=dates)
 
-# Fit Autoregressive model
-model = AutoReg(series, lags=4).fit()
+# 2. Fit an ARIMA model (p=1, d=1, q=1)
+model = ARIMA(series, order=(1, 1, 1)).fit()
 
-# Forecast 8 steps into the future
-forecast = model.predict(start=len(series), end=len(series) + 7)
+# 3. Forecast future values (10 steps ahead)
+forecast = model.forecast(steps=10)
 
-# Visualize original vs forecasted values
+# 4. Plot historical series and forecast
+plt.figure(figsize=(8, 4))
 plt.plot(series.index, series, label="Observed", color="blue")
-plt.plot(forecast.index, forecast, label="Forecast", color="orange", marker="o")
-plt.title("Time Series Forecasting (AutoReg)")
+plt.plot(
+    forecast.index,
+    forecast,
+    label="ARIMA Forecast",
+    color="red",
+    linestyle="--",
+    marker="o",
+)
+plt.title("Time Series Forecasting with ARIMA(1, 1, 1)")
 plt.xlabel("Date")
 plt.ylabel("Value")
 plt.legend()
+plt.tight_layout()
 plt.show()
